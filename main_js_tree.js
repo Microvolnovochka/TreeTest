@@ -79,9 +79,7 @@ var obj =[
     }
 })(obj);
 
-var plus = document.getElementById("plus");
-
-plus.onclick = function (event)
+document.getElementById("plus").onclick = function (event)
 {
     var target = event.target;
     alert("plus");
