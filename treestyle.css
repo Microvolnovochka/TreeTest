@@ -1,3 +1,11 @@
-.tree span:hover{
+.jstree span:hover{
     font-weight:bold;
+}
+
+.jstree span{
+    cursor: pointer;
+}
+
+div{
+    display: inline-block;
 }
