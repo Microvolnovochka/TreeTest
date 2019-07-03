@@ -80,7 +80,7 @@ visualtree(obj);
 jstree.onclick = function (event)//делать обработчик для всего дерева,а по таргету уже смотреть на кого именно нажали
 {
     var target = event.target;
-    var parent = target.parentNode;
+    var parent = target.parentNode.parentNode.parentNode;
     alert(target);
     alert(target.id);
     alert(parent);
