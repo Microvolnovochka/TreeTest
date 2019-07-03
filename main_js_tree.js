@@ -1,107 +1,109 @@
 var jstree = document.getElementById("tree");
-var obj =[ 
+var obj = 
     {
-    value: "root",
-    gen: 0,
-    children:2,
-    childrenpointers: [1,2]
-    },
-    {
-    value: "children",
-    gen: 1,
-    children: 1,
-    childrenpointers: [3]
-    },
-    {
-    value: "children",
-    gen: 1,
-    children: 0,
-    childrenpointers: []
-    },
-    {
-    value: "children",
-    gen: 2,
-    children: 0,
-    childrenpointers: []
-    }
-]; //попытаться реализовать не массивом а объектом
+        name:"root",
+        children:[
+            {
+                name:"a1",
+                children:[
+                    {
+                        name:"a12",
+                        children:[]
+                    }
+                ]
+            },
+            {
+                name:"b1",
+                children:[
+                    {
+                        name:"b11",
+                        children:[]
+                    },
+                    {
+                        name:"b12",
+                        children:[]
+                    }
+                ]
+            }
+        ]
+    }; //попытаться реализовать не массивом а объектом
 
-(function visualtree (obj) {
+var visualtree = function (obj) {
     if (typeof obj !="object")
     {return;}
     if (!obj)
     {return;}
-    var parent =jstree;
+    var parent = jstree;
 
-    drawnod(obj[0]);
-
-    function drawnod (element){
+    drawnod(obj,jstree);
+    
+    function drawnod(treelement,parent)
+    {
         var newUl = document.createElement("ul");
         var newLi = document.createElement("li");
-       // var span = document.createElement("span");
-        var divname = document.createElement("div");
+        var div = document.createElement("div");
         var divplus = document.createElement("div");
         var divminus = document.createElement("div");
         var temparent;
 
-        /*if (0==element.gen)
-        {
-            newLi.innerText = element.value;
-        }
-        else 
-        {
-            newLi.innerText = element.value +" " + element.gen;
-        }*/
-        divname.innerHTML = element.value + " " + element.gen + " ";
-        divplus.innerHTML = "+";
-        divplus.id = "plus";//уникальный id для каждого элемента
-        divminus.innerHTML = " -";
-        divminus.id="minus";
-        newLi.appendChild(divname);
+        div.innerHTML = treelement.name;
+        //newLi.innerText = treelement.name;
+        //newLi.id = treelement.name
+        div.id = treelement.name;
+        newLi.appendChild(div);
+        divplus.innerHTML = " +";
+        divplus.id = "plus";
         newLi.appendChild(divplus);
+        divminus.innerHTML = " -";
+        divminus.id = "minus";
         newLi.appendChild(divminus);
-        //newLi.insertBefore(span,newLi.firstChild);
-        //span.appendChild(span.nextSibling);
-        newUl.appendChild(newLi);
-        parent.appendChild(newUl);
-        if (element.children)
+       // newUl.appendChild(div);
+       // newUl.appendChild(newLi);
+        //parent.appendChild (newUl);
+
+        if (treelement.children[0])
         {
             temparent = parent;
-            parent = newLi;
-            for (let i=0;i<element.children;i++)
+            for (let i=0;i<treelement.children.length;i++)
             {
-                drawnod(obj[element.childrenpointers[i]]);
+                drawnod(treelement.children[i],newLi);
             }
             parent = temparent;
         }
-        else
-        {return;}
+        newUl.appendChild(newLi);
+        parent.appendChild (newUl);
     }
-})(obj);
+};
+
+visualtree(obj);
 
 jstree.onclick = function (event)//делать обработчик для всего дерева,а по таргету уже смотреть на кого именно нажали
 {
     var target = event.target;
-    var child = target.parentNode;
-    alert(child);
-    alert(child.id);
+    var parent = target.parentNode;
+    alert(target);
+    alert(target.id);
+    alert(parent);
+    alert(parent.id);
 
-    /*if (target.tagName != "SPAN")
+    if (target.tagName=="DIV"&&target.id=="plus")
     {
-        return;
-    }*/
-    var treechild = document.createElement("ul");
-    var leaf = document.createElement("li");
-    //var span = document.createElement("span");
-    let plus = document.createElement("div");
+        createNod(target);
+    }
+    function createNod(target){
+        var newUl = document.createElement("ul");
+        var newLi = document.createElement("li");
+        var div = document.createElement("div");
+        var parent = target.parentNode;
 
-    plus.id = "plus";
-    plus.innerHTML="+";
-    leaf.innerText = "Child";
-    leaf.appendChild(plus);
-   // leaf.insertBefore(span,leaf.firstChild);
-   // span.appendChild(span.nextSibling);
+        div.innerHTML = parent.getElementsByTagName("div")[0].innerHTML + "0";
+        div.id = parent.getElementsByTagName("div")[0].innerHTML + "0";
+        newLi.appendChild(div);
+        newUl.appendChild(newLi);
+        parent.appendChild(newUl);
 
-    treechild.appendChild(leaf);
-    target.appendChild(treechild);
+
+    }
+
+   // event.stopPropagation();
 }

@@ -1,8 +1,8 @@
-.jstree span:hover{
+/*.jstree div:hover{
     font-weight:bold;
-}
+}*/
 
-.jstree span{
+.jstree div{
     cursor: pointer;
 }
 
