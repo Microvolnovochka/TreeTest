@@ -94,6 +94,8 @@ jstree.onclick = function (event)//делать обработчик для вс
         var newUl = document.createElement("ul");
         var newLi = document.createElement("li");
         var div = document.createElement("div");
+        var divplus = document.createElement("div");
+        var divminus = document.createElement("div");
         var parent = target.parentNode;
 
         div.innerHTML = parent.getElementsByTagName("div")[0].innerHTML + "0";
