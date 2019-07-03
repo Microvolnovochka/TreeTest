@@ -24,7 +24,7 @@ var obj =[
     children: 0,
     childrenpointers: []
     }
-];
+]; //попытаться реализовать не массивом а объектом
 
 (function visualtree (obj) {
     if (typeof obj !="object")
@@ -38,7 +38,7 @@ var obj =[
     function drawnod (element){
         var newUl = document.createElement("ul");
         var newLi = document.createElement("li");
-        var span = document.createElement("span");
+       // var span = document.createElement("span");
         var divname = document.createElement("div");
         var divplus = document.createElement("div");
         var divminus = document.createElement("div");
@@ -54,14 +54,14 @@ var obj =[
         }*/
         divname.innerHTML = element.value + " " + element.gen + " ";
         divplus.innerHTML = "+";
-        divplus.id = "plus";
+        divplus.id = "plus";//уникальный id для каждого элемента
         divminus.innerHTML = " -";
         divminus.id="minus";
         newLi.appendChild(divname);
         newLi.appendChild(divplus);
         newLi.appendChild(divminus);
-        newLi.insertBefore(span,newLi.firstChild);
-        span.appendChild(span.nextSibling);
+        //newLi.insertBefore(span,newLi.firstChild);
+        //span.appendChild(span.nextSibling);
         newUl.appendChild(newLi);
         parent.appendChild(newUl);
         if (element.children)
@@ -79,10 +79,12 @@ var obj =[
     }
 })(obj);
 
-document.getElementById("plus").onclick = function (event)
+jstree.onclick = function (event)//делать обработчик для всего дерева,а по таргету уже смотреть на кого именно нажали
 {
     var target = event.target;
-    alert("plus");
+    var child = target.parentNode;
+    alert(child);
+    alert(child.id);
 
     /*if (target.tagName != "SPAN")
     {
@@ -90,15 +92,15 @@ document.getElementById("plus").onclick = function (event)
     }*/
     var treechild = document.createElement("ul");
     var leaf = document.createElement("li");
-    var span = document.createElement("span");
+    //var span = document.createElement("span");
     let plus = document.createElement("div");
 
     plus.id = "plus";
     plus.innerHTML="+";
     leaf.innerText = "Child";
     leaf.appendChild(plus);
-    leaf.insertBefore(span,leaf.firstChild);
-    span.appendChild(span.nextSibling);
+   // leaf.insertBefore(span,leaf.firstChild);
+   // span.appendChild(span.nextSibling);
 
     treechild.appendChild(leaf);
     target.appendChild(treechild);
