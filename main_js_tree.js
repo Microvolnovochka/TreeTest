@@ -91,7 +91,7 @@ jstree.onclick = function (event)//делать обработчик для вс
         createNod(target);
     }
     function createNod(target){
-        var newUl = document.createElement("ul");
+        //var newUl = document.createElement("ul");
         var newLi = document.createElement("li");
         var div = document.createElement("div");
         var divplus = document.createElement("div");
