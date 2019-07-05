@@ -1,34 +1,81 @@
+const MAX = 10000;
 var jstree = document.getElementById("tree");
-var obj = 
-    {
-        name:"root",
-        children:[
-            {
-                name:"a1",
-                children:[
-                    {
-                        name:"a12",
-                        children:[]
-                    }
-                ]
-            },
-            {
-                name:"b1",
-                children:[
-                    {
-                        name:"b11",
-                        children:[]
-                    },
-                    {
-                        name:"b12",
-                        children:[]
-                    }
-                ]
-            }
-        ]
-    }; 
+var requestURL = 'data.json';
+var request = new XMLHttpRequest();
+request.open('GET',requestURL);
+request.responseType = "json";
+request.send();
 
-var visualtree = function (obj) {
+request.onload = function(){
+    var obj;
+    obj = request.response; 
+    visualtree(obj);
+    jstree.onclick = function (event)
+    {
+        var target = event.target;
+        var parent = target.parentNode;
+        /*alert(target);
+        alert(target.id);
+        alert(parent);
+        alert(parent.getElementsByTagName("div")[0].parentNode.parentNode.parentNode.getElementsByTagName("div")[0].id);*/
+
+        if (target.tagName=="DIV"&&target.id=="plus")
+        {
+            jstree.innerHTML = " ";
+            createNod(parent.getElementsByTagName("div")[0],obj);
+            visualtree(obj);
+        }
+        else if (target.tagName=="DIV"&&target.id=="minus")
+        {
+            jstree.innerHTML = " ";
+            deleteNod(parent.getElementsByTagName("div")[0],obj);
+            visualtree(obj);
+        }
+
+
+        function createNod(target,treelement)
+        {
+            if (treelement.name==target.id)
+            {
+                treelement.children.push({name:(Math.floor(Math.random()*MAX)).toString(),children:[]});
+                return;
+            }
+            else 
+            {
+                for (let i=0;i<treelement.children.length;i++)
+                {
+                    createNod(target,treelement.children[i]);
+                }
+            }
+        }
+        
+        function deleteNod(target,treelement)
+        {
+            function find (element,index,array)
+            {
+                if (element.name==target.id)
+                return true;
+                else 
+                return false;
+            }
+            partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
+            if (treelement.name==partarget.id)
+            {
+                treelement.children.splice(treelement.children.findIndex(find),1)
+            }
+            else 
+            {
+                for (let i=0;i<treelement.children.length;i++)
+                {
+                    deleteNod(target,treelement.children[i]);
+                }
+            }
+        }
+    // event.stopPropagation();
+    }
+}
+
+ function visualtree (obj) {
     if (typeof obj !="object")
     {return;}
     if (!obj)
@@ -68,23 +115,23 @@ var visualtree = function (obj) {
         newUl.appendChild(newLi);
         parent.appendChild (newUl);
     }
-};
+}
 
-visualtree(obj);
+//visualtree(obj);
 
 /*jstree.onmouseup = function (event)
 {
     alert(event.target);
 }*/
 
-jstree.onclick = function (event)
+/*jstree.onclick = function (event)
 {
     var target = event.target;
     var parent = target.parentNode;
     /*alert(target);
     alert(target.id);
     alert(parent);
-    alert(parent.getElementsByTagName("div")[0].parentNode.parentNode.parentNode.getElementsByTagName("div")[0].id);*/
+    alert(parent.getElementsByTagName("div")[0].parentNode.parentNode.parentNode.getElementsByTagName("div")[0].id);
 
     if (target.tagName=="DIV"&&target.id=="plus")
     {
@@ -104,7 +151,7 @@ jstree.onclick = function (event)
     {
         if (treelement.name==target.id)
         {
-            treelement.children.push({name:"created",children:[]});
+            treelement.children.push({name:(Math.random()*MAX).toString(),children:[]});
             return;
         }
         else 
@@ -118,6 +165,13 @@ jstree.onclick = function (event)
     
     function deleteNod(target,treelement)
     {
+        function find (element,index,array)
+        {
+            if (element==target.id)
+            return true;
+            else 
+            return false;
+        }
         partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
         if (treelement.name==partarget.id)
         {
@@ -131,12 +185,5 @@ jstree.onclick = function (event)
             }
         }
     }
-    function find (element,index,array)
-    {
-        if (element==target.id)
-        return true;
-        else 
-        return false;
-    }
    // event.stopPropagation();
-}
+}*/
