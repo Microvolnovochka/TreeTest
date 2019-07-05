@@ -1,6 +1,6 @@
-/*.jstree div:hover{
+.jstree div:hover{
     font-weight:bold;
-}*/
+}
 
 .jstree div{
     cursor: pointer;
@@ -8,4 +8,6 @@
 
 div{
     display: inline-block;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
 }
