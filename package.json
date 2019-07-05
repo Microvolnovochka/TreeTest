@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Microvolnovochka/TreeTest#readme",
   "dependencies": {
-    "html-validator": "^4.0.3"
+    "html-validator": "^4.0.3",
+    "node-static": "^0.7.11"
   }
 }
