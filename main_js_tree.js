@@ -1,12 +1,40 @@
 const MAX = 10000;
 var jstree = document.getElementById("tree");
 var requestURL = 'data.json';
-var request = new XMLHttpRequest();
+/*var request = new XMLHttpRequest();
 request.open('GET',requestURL);
 request.responseType = "json";
-request.send();
+request.send();*/
 
-request.onload = function(){
+fetch(requestURL)
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(obj) {
+    console.log(JSON.stringify(obj));
+    visualtree(obj);
+    jstree.onclick = function (event)
+    {
+        var target = event.target;
+        var parent = target.parentNode;
+
+        if (target.tagName=="DIV"&&target.id=="plus")
+        {
+            jstree.innerHTML = " ";
+            createNod(parent.getElementsByTagName("div")[0],obj);
+            visualtree(obj);
+        }
+        else if (target.tagName=="DIV"&&target.id=="minus")
+        {
+            jstree.innerHTML = " ";
+            deleteNod(parent.getElementsByTagName("div")[0],obj);
+            visualtree(obj);
+        }
+    }
+  });
+
+
+/*request.onload = function(){
     var obj;
     obj = request.response; 
     visualtree(obj);
@@ -28,7 +56,7 @@ request.onload = function(){
             visualtree(obj);
         }
     }
-}
+}*/
 
  function visualtree (obj) {
     if (typeof obj !="object")

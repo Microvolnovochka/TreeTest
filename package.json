@@ -1,0 +1,22 @@
+{
+  "name": "test_tree_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main_js_tree.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Microvolnovochka/TreeTest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Microvolnovochka/TreeTest/issues"
+  },
+  "homepage": "https://github.com/Microvolnovochka/TreeTest#readme",
+  "dependencies": {
+    "html-validator": "^4.0.3"
+  }
+}
