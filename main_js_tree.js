@@ -163,7 +163,7 @@ function deleteNod(target,treelement){
     partarget=target.parentNode.parentNode.parentNode;
     for (let i=0;i<partarget.children.length;i++)
     {
-        if (Number(partarget.children[i].id))
+        if ((Number(partarget.children[i].id))||(partarget.children[i].id=="root"))
         {
             partarget = partarget.children[i];
             break;
