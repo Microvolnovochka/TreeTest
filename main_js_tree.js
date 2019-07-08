@@ -41,14 +41,14 @@ fetch(requestURL)
             }
         }
     }
-    jstree.onmousedown = function (event){
+    /*jstree.onmousedown = function (event){
         var target = event.target;
         if (target.tagName=="DIV"&&target.id!="plus"&&target.id!="minus")
         {
             //alert(target);
             let finaltaraget;
             let nadoli = false;
-            let tempobj = findNod(target,jstree);
+            let tempobj = findNod(target,obj);
 
             jstree.onmouseup = function(e) {
                 finaltarget = e.target;
@@ -66,7 +66,7 @@ fetch(requestURL)
                 }
             }
         }
-    }
+    }*/
   });
 
 
@@ -190,7 +190,7 @@ function renameNod(target,treelement,newname){
 }
 
 function findNod(target,treelement){
-    if (treelement.name==target.name)
+    if (treelement.name==target.id)
     {
         return treelement;
     }
