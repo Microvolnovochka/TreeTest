@@ -1,3 +1,4 @@
+
 const MAX = 10000;
 var jstree = document.getElementById("tree");
 var requestURL = 'data.json';
@@ -11,10 +12,8 @@ fetch(requestURL)
     return response.json();
   })
   .then(function(obj) {
-    console.log(JSON.stringify(obj));
     visualtree(obj);
-    jstree.onclick = function (event)
-    {
+    jstree.onclick = function ( event ){
         var target = event.target;
         var parent = target.parentNode;
 
@@ -29,6 +28,43 @@ fetch(requestURL)
             jstree.innerHTML = " ";
             deleteNod(parent.getElementsByTagName("div")[0],obj);
             visualtree(obj);
+        }
+        else if (target.tagName=="DIV")
+        {
+            let result = prompt ("Введите новое имя ветки");
+            if (result!=null&&result!="")
+            {
+                alert(result);
+                jstree.innerHTML = " ";
+                renameNod(target,obj,result);
+                visualtree(obj);
+            }
+        }
+    }
+    jstree.onmousedown = function (event){
+        var target = event.target;
+        if (target.tagName=="DIV"&&target.id!="plus"&&target.id!="minus")
+        {
+            //alert(target);
+            let finaltaraget;
+            let nadoli = false;
+            let tempobj = findNod(target,jstree);
+
+            jstree.onmouseup = function(e) {
+                finaltarget = e.target;
+                if (finaltarget.tagName=="DIV"&&finaltarget.id!="plus"&&finaltarget.id!="minus")
+                {nadoli = true;}
+                //alert(e.target.id);
+                document.onmousemove = null;
+                jstree.onmouseup = null;
+                if (nadoli)
+                {
+                    deleteNod(target,obj);
+                    copyNod(finaltarget,tempobj,obj);
+                    jstree.innerHTML = " ";
+                    visualtree(obj);
+                }
+            }
         }
     }
   });
@@ -101,41 +137,83 @@ fetch(requestURL)
     }
 }
 
-function createNod(target,treelement)
+function createNod(target,treelement){
+    if (treelement.name==target.id)
+    {
+        treelement.children.push({name:(Math.floor(Math.random()*MAX)).toString(),children:[]});
+        return;
+    }
+    else 
+    {
+        for (let i=0;i<treelement.children.length;i++)
         {
-            if (treelement.name==target.id)
-            {
-                treelement.children.push({name:(Math.floor(Math.random()*MAX)).toString(),children:[]});
-                return;
-            }
-            else 
-            {
-                for (let i=0;i<treelement.children.length;i++)
-                {
-                    createNod(target,treelement.children[i]);
-                }
-            }
+            createNod(target,treelement.children[i]);
         }
+    }
+}
         
-function deleteNod(target,treelement)
+function deleteNod(target,treelement){
+    function find (element,index,array)
+    {
+        if (element.name==target.id)
+        return true;
+        else 
+        return false;
+    }
+    partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
+    if (treelement.name==partarget.id)
+    {
+        treelement.children.splice(treelement.children.findIndex(find),1)
+    }
+    else 
+    {
+        for (let i=0;i<treelement.children.length;i++)
         {
-            function find (element,index,array)
-            {
-                if (element.name==target.id)
-                return true;
-                else 
-                return false;
-            }
-            partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
-            if (treelement.name==partarget.id)
-            {
-                treelement.children.splice(treelement.children.findIndex(find),1)
-            }
-            else 
-            {
-                for (let i=0;i<treelement.children.length;i++)
-                {
-                    deleteNod(target,treelement.children[i]);
-                }
-            }
+            deleteNod(target,treelement.children[i]);
         }
+    }
+}
+
+function renameNod(target,treelement,newname){
+    if (treelement.name==target.id)
+    {
+        treelement.name=newname;
+        return;
+    }
+    else 
+    {
+        for (let i=0;i<treelement.children.length;i++)
+        {
+            renameNod(target,treelement.children[i],newname);
+        }
+    }
+}
+
+function findNod(target,treelement){
+    if (treelement.name==target.name)
+    {
+        return treelement;
+    }
+    else 
+    {
+        for (let i=0;i<treelement.children.length;i++)
+        {
+            findNod(target,treelement.children[i]);
+        }
+    }
+}
+
+function copyNod(finaltarget,tempobj,treelement){
+    if (finaltarget.name==treelement.name)
+    {
+        treelement.children.push(tempobj);
+        return;
+    }
+    else
+    {
+        for (let i=0;i<treelement.children.length;i++)
+        {
+            copyNod(finaltarget,tempobj,treelement.children[i]);
+        }
+    }
+}
