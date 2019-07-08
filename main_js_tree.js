@@ -102,6 +102,7 @@ fetch(requestURL)
     var parent = jstree;
 
     drawnod(obj,jstree);
+    return 5;
     
     function drawnod(treelement,parent)
     {
