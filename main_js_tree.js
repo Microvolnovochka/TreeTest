@@ -113,7 +113,6 @@ fetch(requestURL)
         var temparent;
 
         div.innerHTML = treelement.name;
-        //div.style = zaglushka;
         div.id = treelement.name;
         newLi.appendChild(div);
         divplus.innerHTML = " +";
@@ -160,10 +159,19 @@ function deleteNod(target,treelement){
         else 
         return false;
     }
-    partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
+    partarget=target.parentNode.parentNode.parentNode;
+    for (let i=0;i<partarget.children.length;i++)
+    {
+        if (Number(partarget.children[i].id))
+        {
+            partarget = partarget.children[i];
+            break;
+        }
+    }
     if (treelement.name==partarget.id)
     {
         treelement.children.splice(treelement.children.findIndex(find),1)
+        return ;
     }
     else 
     {
