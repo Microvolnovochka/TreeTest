@@ -160,13 +160,7 @@ function deleteNod(target,treelement){
         else 
         return false;
     }
-<<<<<<< HEAD
-
-    var poisk =target.id;
-    var partarget = target.parentNode.parentNode.parentNode;
-=======
     partarget=target.parentNode.parentNode.parentNode;
->>>>>>> try_jest
     for (let i=0;i<partarget.children.length;i++)
     {
         if (Number(partarget.children[i].id))
@@ -178,11 +172,7 @@ function deleteNod(target,treelement){
     if (treelement.name==partarget.id)
     {
         treelement.children.splice(treelement.children.findIndex(find),1)
-<<<<<<< HEAD
         return;
-=======
-        return ;
->>>>>>> try_jest
     }
     else 
     {
