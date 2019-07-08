@@ -160,10 +160,21 @@ function deleteNod(target,treelement){
         else 
         return false;
     }
-    partarget=target.parentNode.parentNode.parentNode.getElementsByTagName("div")[0];
+
+    var poisk =target.id;
+    var partarget = target.parentNode.parentNode.parentNode;
+    for (let i=0;i<partarget.children.length;i++)
+    {
+        if (Number(partarget.children[i].id))
+        {
+            partarget = partarget.children[i];
+            break;
+        }
+    }
     if (treelement.name==partarget.id)
     {
         treelement.children.splice(treelement.children.findIndex(find),1)
+        return;
     }
     else 
     {
